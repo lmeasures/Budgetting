@@ -1,0 +1,33 @@
+version: "3.8"
+networks:
+  workspaces:
+services:
+  express-api-a:
+    container_name: express-api-a
+    build:
+      context: .
+      dockerfile: ./express-api-a/dockerfile
+    image: express-api-a:latest
+    networks:
+      - workspaces
+    ports:
+      - 3001:3001
+    volumes:
+      - ./express-api-a:/app/express-api-a
+      - ./@csl/functions:/app/@csl/functions
+      - ./@csl/interfaces:/app/@csl/interfaces
+  react-app-a:
+    build:
+      context: .
+      dockerfile: ./react-app-a/dockerfile
+    image: react-app-a:latest
+    container_name: react-app-a
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    networks:
+      - workspaces
+    volumes:
+      - ./react-app-a:/app/react-app-a
+      - ./@csl:/app/@csl

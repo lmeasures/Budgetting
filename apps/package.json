@@ -1,0 +1,36 @@
+{
+  "name": "test-root",
+  "version": "0.0.0",
+  "description": "testing shared components across react-apps with independent `src` folders using npm-workspaces",
+  "main": "index.js",
+  "workspaces": [
+    "@csl/components",
+    "@csl/functions",
+    "@csl/interfaces",
+    "react-app-a",
+    "express-api-a"
+  ],
+  "scripts": {
+    "app": "npm run start -w ",
+    "build": "npm run build -w ",
+    "test": "npm run test -w ",
+    "create": "sh ../scripts/create_new_app.sh"
+  },
+  "author": "Lee Measures",
+  "license": "ISC",
+  "dependencies": {
+    "@ukic/fonts": "^2.2.0",
+    "@ukic/react": "^2.2.0",
+    "craco-babel-loader": "^1.0.4",
+    "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "babel-jest": "27.5.1"
+  },
+  "overrides": {
+    "react-scripts": {
+      "babel-jest": "^27.5.1"
+    },
+    "nth-check": "^2.0.1"
+  }
+}
