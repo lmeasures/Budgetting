@@ -7,7 +7,7 @@
     "@csl/components",
     "@csl/functions",
     "@csl/interfaces",
-    "react-app-a",
+    "front-end",
     "express-api-a"
   ],
   "scripts": {

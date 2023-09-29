@@ -1,0 +1,44 @@
+table {
+  display:block;
+  width:50%;
+  /* border: 2px solid black; */
+  border-radius: 10px;
+  text-align: center;
+}
+th {
+  border-right: 1px solid black;
+  border-bottom: 1px solid rgba(0,0,0,0.2)
+}
+td {
+  border-bottom: 1px dashed black;
+  border-right: 1px dotted black;
+  padding-bottom:5px;
+}
+.BudgetView-Description {
+  width: 30%;
+}
+.BudgetView-Value {
+  width: 10%;
+}
+.BudgetView-StartDate {
+  width: 14%;
+}
+.BudgetView-Frequency {
+  width: 10%;
+  font-size: small;
+}
+.BudgetView-EndDate {
+  width: 14%;
+}
+.BudgetView-Func {
+  width: 5%;
+}
+.BudgetView-DataEntry {
+  width:95%;
+  border: none;
+}
+input[type="range"]{
+  display: block;
+  accent-color: black;
+  height: 10px;
+}

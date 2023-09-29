@@ -16,12 +16,12 @@ services:
       - ./express-api-a:/app/express-api-a
       - ./@csl/functions:/app/@csl/functions
       - ./@csl/interfaces:/app/@csl/interfaces
-  react-app-a:
+  front-end:
     build:
       context: .
-      dockerfile: ./react-app-a/dockerfile
-    image: react-app-a:latest
-    container_name: react-app-a
+      dockerfile: ./front-end/dockerfile
+    image: front-end:latest
+    container_name: front-end
     ports:
       - 3000:3000
     expose:
@@ -29,5 +29,5 @@ services:
     networks:
       - workspaces
     volumes:
-      - ./react-app-a:/app/react-app-a
+      - ./front-end:/app/front-end
       - ./@csl:/app/@csl
