@@ -1,0 +1,34 @@
+{   
+    "items": [
+        {
+            "id":1,
+            "description":"A Test Description",
+            "value":"57.23",
+            "startDate":"03/6/2023",
+            "frequency":1,
+            "endDate":"03/10/2024",
+            "paid":[
+                "06/2023",
+                "07/2023",
+                "08/2023",
+                "09/2023",
+                "10/2023"
+            ]
+        },
+        {
+            "id":2,
+            "description":"Another Description",
+            "value":"6.40",
+            "startDate":"05/6/2023",
+            "frequency":1,
+            "endDate":"05/10/2024",
+            "paid":[
+                "06/2023",
+                "07/2023",
+                "08/2023",
+                "09/2023",
+                "10/2023"
+            ]
+        }
+    ]
+}

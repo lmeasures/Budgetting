@@ -1,24 +1,32 @@
+.App{
+  background-color: rgba(0,0,0,0.8);
+  height:100vh;
+  color:white;
+}
+
 table {
   display:block;
   width:50%;
-  /* border: 2px solid black; */
+  border: 2px solid pink;
   border-radius: 10px;
   text-align: center;
 }
 th {
   border-right: 1px solid black;
-  border-bottom: 1px solid rgba(0,0,0,0.2)
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  color: pink;
 }
 td {
-  border-bottom: 1px dashed black;
-  border-right: 1px dotted black;
-  padding-bottom:5px;
+  /* border-bottom: 1px dashed black; */
+  /* border-right: 1px dotted black; */
+  /* padding-bottom:5px; */
 }
 .BudgetView-Description {
   width: 30%;
 }
 .BudgetView-Value {
   width: 10%;
+  background-color:rgba(0,0,0,0.1);
 }
 .BudgetView-StartDate {
   width: 14%;
@@ -26,6 +34,7 @@ td {
 .BudgetView-Frequency {
   width: 10%;
   font-size: small;
+  background-color:rgba(0,0,0,0.1);
 }
 .BudgetView-EndDate {
   width: 14%;
@@ -37,8 +46,13 @@ td {
   width:95%;
   border: none;
 }
+input {
+  background-color: rgba(0,0,0,0);
+  color:white;
+  text-align:center;
+}
 input[type="range"]{
   display: block;
-  accent-color: black;
+  accent-color: pink;
   height: 10px;
 }

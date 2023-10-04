@@ -19,6 +19,7 @@
   "author": "Lee Measures",
   "license": "ISC",
   "dependencies": {
+    "@mui/icons-material": "^5.14.12",
     "@ukic/fonts": "^2.2.0",
     "@ukic/react": "^2.2.0",
     "craco-babel-loader": "^1.0.4",

@@ -1,7 +1,25 @@
 import React from 'react';
 import './App.css';
 
+import testData from './test-data.json';
+
+import CheckIcon from '@mui/icons-material/Check';
+import {ToggleButton} from '@mui/material';
+
 function App() {
+  const emptyBudgetLine: IBudgetLine = {
+    id: undefined,
+    description: undefined,
+    value: undefined,
+    startDate: undefined,
+    frequency: 1,
+    endDate: undefined,
+    paid: []
+  }
+
+  const [newBudgetLine, setNewBudgetLine] = React.useState<IBudgetLine>(emptyBudgetLine);
+  const [budgetItems, setBudgetItems] = React.useState<Array<IBudgetLine>>(testData.items);
+  
 
   const FrequencyEnum: Array<IBudgetFrequency> = [
     "Daily",
@@ -12,28 +30,38 @@ function App() {
   type IBudgetFrequency = "Daily" | "Weekly" | "Monthly"
 
   interface IBudgetLine {
-    Description: string,
-    Value: number,
-    StartDate: string,
-    Frequency: 0 | 1 | 2,
-    EndDate: string
+    id: number | undefined,
+    description: string | undefined,
+    value: string | undefined,
+    startDate: string | undefined,
+    frequency: number,
+    endDate: string | undefined,
+    paid: Array<string>,
   }
+
+  const CurrentMonth = "10/2023";
 
   const handleNewLineChange = (attributeName: string, value: any) => {
     const newLineCopy = {...newBudgetLine, [attributeName]: value};
-    console.log(newLineCopy);
     setNewBudgetLine(newLineCopy);
   }
 
-  const emptyBudgetLine: IBudgetLine = {
-    Description: "",
-    Value: 0.00,
-    StartDate: new Date().getDate().toLocaleString('en-GB'),
-    Frequency: 2,
-    EndDate: new Date().getDate().toLocaleString('en-GB'),
+  const handlePaidClick = (id: number) => {
+    const budgetItemsCopy = [... budgetItems]
+    const budgetItemIndex = budgetItemsCopy.findIndex((a) => a.id === id)
+    if (budgetItemsCopy[budgetItemIndex].paid && budgetItemsCopy[budgetItemIndex].paid.length > 0) {
+      const paidIndex = budgetItemsCopy[budgetItemIndex].paid.findIndex((a) => a === CurrentMonth);
+      if (paidIndex === -1){
+        budgetItemsCopy[budgetItemIndex].paid.push(CurrentMonth);
+      }
+      else {
+        budgetItemsCopy[budgetItemIndex].paid.splice(paidIndex, 1);
+      }
+    }
+    setBudgetItems(budgetItemsCopy);
   }
 
-  const [newBudgetLine, setNewBudgetLine] = React.useState<IBudgetLine>(emptyBudgetLine);
+
 
   return (
     <div className="App">
@@ -54,46 +82,48 @@ function App() {
               <tr className="BudgetView-Row">
                 <td className="BudgetView-Description">
                   <input className="BudgetView-DataEntry"
-                    name="Description"
+                    name="description"
                     type="text"
-                    value={newBudgetLine.Description}
+                    placeholder="Description"
+                    value={newBudgetLine.description} 
                     onBlur={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
                   />
                 </td>
                 <td className="BudgetView-Value">
                   <input className="BudgetView-DataEntry"
-                    name="Value"
+                    name="value"
                     type="string" 
-                    // pattern="/^([0-9])+\.([0-9]){2}$/g" 
-                    value={newBudgetLine.Value}
+                    placeholder="Value"
+                    pattern="/^([0-9])+\.([0-9]){2}$/g" 
+                    value={newBudgetLine.value}
                     onChange={(e) => {handleNewLineChange(e.target.name, +e.target.value)}}
                   />
                 </td>
                 <td className="BudgetView-StartDate">
                   <input className="BudgetView-DataEntry"
-                    name="StartDate"
+                    name="startDate"
                     type="date"
-                    value={newBudgetLine.StartDate}
+                    value={newBudgetLine.startDate}
                     onChange={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
                   />
                 </td>
                 <td className="BudgetView-Frequency">
-                  {FrequencyEnum[newBudgetLine.Frequency]}
+                  {FrequencyEnum[newBudgetLine.frequency]}
                   <input className="BudgetView-DataEntry" 
-                    name="Frequency"
+                    name="frequency"
                     type="range" 
                     min={0}
                     max={2}
                     step={1}
-                    value={newBudgetLine.Frequency}
+                    value={newBudgetLine.frequency}
                     onChange={(e) => {handleNewLineChange(e.target.name, +e.target.value)}}
                   />
                 </td>
                 <td className="BudgetView-EndDate">
                   <input className="BudgetView-DataEntry"
-                    name="EndDate"
+                    name="endDate"
                     type="date"
-                    value={newBudgetLine.EndDate}
+                    value={newBudgetLine.endDate}
                     onChange={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
                   />
                 </td>
@@ -101,6 +131,41 @@ function App() {
                   <button>Save</button>
                 </td>
               </tr>
+              {testData.items.map((item, i)=>{
+                return (
+                  <>
+                    <tr key={i} className="BudgetView-Row">
+                      <td className="BudgetView-Description">
+                        {item.description}
+                      </td>
+                      <td className="BudgetView-Value">
+                        £{item.value}
+                      </td>
+                      <td className="BudgetView-StartDate">
+                        {item.startDate}
+                      </td>
+                      <td className="BudgetView-Frequency">
+                        {FrequencyEnum[item.frequency]}
+                      </td>
+                      <td className="BudgetView-EndDate">
+                        {item.endDate}
+                      </td>
+                      <td className="BudgetView-Func">
+                        <ToggleButton
+                          name="Paid"
+                          value="check"
+                          selected={!!item.paid.find((a)=> a === CurrentMonth)}
+                          color="success"
+                          size="small"
+                          onClick={() => handlePaidClick(item.id)}
+                        >
+                          <CheckIcon/>
+                        </ToggleButton>
+                      </td>
+                    </tr>
+                  </>
+                )
+              })}
             </tbody>
           </table>
         </div>
