@@ -4,9 +4,9 @@
             "id":1,
             "description":"A Test Description",
             "value":"57.23",
-            "startDate":"03/6/2023",
+            "startDate":"2023-06-03",
             "frequency":1,
-            "endDate":"03/10/2024",
+            "endDate":"2024-10-03",
             "paid":[
                 "06/2023",
                 "07/2023",
@@ -19,9 +19,9 @@
             "id":2,
             "description":"Another Description",
             "value":"6.40",
-            "startDate":"05/6/2023",
+            "startDate":"2023-06-05",
             "frequency":1,
-            "endDate":"05/10/2024",
+            "endDate":"2024-10-05",
             "paid":[
                 "06/2023",
                 "07/2023",
