@@ -2,11 +2,11 @@
     "items": [
         {
             "id":1,
-            "description":"A Test Description",
+            "description":"Car Insurance",
             "value":"57.23",
             "startDate":"2023-06-03",
-            "frequency":1,
-            "endDate":"2023-09-03",
+            "frequency":2,
+            "endDate":"2024-06-02",
             "paid":[
                 "06/2023",
                 "07/2023",
@@ -18,11 +18,11 @@
         },
         {
             "id":2,
-            "description":"Another Description",
+            "description":"Mortgage",
             "value":"6.40",
-            "startDate":"2023-06-16",
-            "frequency":1,
-            "endDate":"2024-01-03",
+            "startDate":"2023-03-17",
+            "frequency":2,
+            "endDate":"2025-03-16",
             "paid":[
                 "06/2023",
                 "07/2023",
