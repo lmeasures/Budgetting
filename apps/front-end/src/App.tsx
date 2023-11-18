@@ -22,6 +22,9 @@ const App = () => {
 
   const [newBudgetLine, setNewBudgetLine] = React.useState<IBudgetLine>(emptyBudgetLine);
   const [displaySubmitToolTip, setDisplaySubmitToolTip] = React.useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+  //.toLocaleDateString("en-GB", {day: "numeric", month: "numeric", year: "numeric"})
 
   const FrequencyEnum: Array<IBudgetFrequency> = [
     "Daily",
@@ -41,11 +44,44 @@ const App = () => {
     paid: Array<string>,
   }
 
-  const CurrentMonth = "10/2023";
+  const changeYear = (changeValue: number) => {
+    const dateCopy = selectedDate;
+    dateCopy.setFullYear( selectedDate.getFullYear() + changeValue);
+    setSelectedDate(new Date(dateCopy));
+  }
+  const changeMonth = (changeValue: number) => {
+    const dateCopy = selectedDate;
+    dateCopy.setMonth( selectedDate.getMonth() + changeValue);
+    setSelectedDate(new Date(dateCopy));
+  }
 
   const handleNewLineChange = (attributeName: string, value: any) => {
     const newLineCopy = {...newBudgetLine, [attributeName]: value};
     setNewBudgetLine(newLineCopy);
+  }
+
+
+  const filterBudgetItems = (budgetItems: Array<IBudgetLine>) => {
+    const selectedDateLowerComparitor = new Date(selectedDate);
+    selectedDateLowerComparitor.setDate(1);
+    selectedDateLowerComparitor.setHours(0,0,0,0);
+    const selectedDateUpperComparitor = new Date(selectedDate);
+    selectedDateUpperComparitor.setDate(31);
+    selectedDateUpperComparitor.setHours(0,0,0,0);
+    const items = budgetItems.filter((item) => {
+      if ( item.startDate && item.endDate){
+        const newStartDate = new Date(item.startDate);
+        newStartDate.setDate(1);
+        const newEndDate = new Date(item.endDate);
+        newEndDate.setDate(1);
+      return (
+          newStartDate <= selectedDateUpperComparitor
+            &&
+          newEndDate >= selectedDateLowerComparitor
+        )
+      }
+    })
+    return items;
   }
 
   const handleAddBudgetItem = async () => {
@@ -82,14 +118,15 @@ const App = () => {
 
 
   const handlePaidClick = (id: number) => {
+    const selectedMonth = selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"})
     const budgetItemsCopy = [... budgetItems]
     const budgetItemIndex = budgetItemsCopy.findIndex((a) => a.id === id);
     console.log(budgetItemIndex);
     if (budgetItemsCopy[budgetItemIndex].paid) {
-      const paidIndex = budgetItemsCopy[budgetItemIndex].paid.findIndex((a) => a === CurrentMonth);
+      const paidIndex = budgetItemsCopy[budgetItemIndex].paid.findIndex((a) => a === selectedMonth);
       console.log(paidIndex);
       if (paidIndex === -1){
-        budgetItemsCopy[budgetItemIndex].paid.push(CurrentMonth);
+        budgetItemsCopy[budgetItemIndex].paid.push(selectedMonth);
       }
       else {
         budgetItemsCopy[budgetItemIndex].paid.splice(paidIndex, 1);
@@ -104,7 +141,16 @@ const App = () => {
     <div className="App">
       <>
         <div className="BudgetView-Container">
-          <table className="BudgetView">
+          <div className="BudgetView-MonthSelector">
+            <div className="MonthSelector-Controls">
+              <button onClick={() => changeYear(-1)}>{"<<"}</button>
+              <button onClick={() => changeMonth(-1)}>{"<"}</button>
+              &nbsp; {selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"})} &nbsp;
+              <button onClick={() => changeMonth(1)}>{">"}</button>
+              <button onClick={() => changeYear(1)}>{">>"}</button>
+            </div> 
+          </div>
+          <table className="BudgetView"> 
             <thead>
               <tr>
                 <th className="BudgetView-Description">Description</th>
@@ -182,7 +228,7 @@ const App = () => {
                 </Tooltip>
                 </td>
               </tr>
-              {budgetItems.map((item, i)=>{
+              {filterBudgetItems(budgetItems).map((item, i)=>{
                 return (
                   <>
                     <tr key={i} className="BudgetView-Row">
@@ -203,15 +249,15 @@ const App = () => {
                       </td>
                       <td className="BudgetView-Func">
                         <Tooltip 
-                          title={!!item.paid.find((a) => a === CurrentMonth) ? "Paid" : "Unpaid"}
+                          title={!!item.paid.find((a) => a === selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"})) ? "Paid" : "Unpaid"}
                           followCursor
-                          placement="right"
+                          placement="right" 
                           arrow
                         >
                           <ToggleButton
                             name="Paid"
                             value="check"
-                            selected={!!item.paid.find((a)=> a === CurrentMonth)}
+                            selected={!!item.paid.find((a)=> a === selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"}))}
                             color="success"
                             size="small"
                             onClick={() => handlePaidClick(item.id)}
