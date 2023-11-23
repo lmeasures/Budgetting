@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="KGh9Dt0doizdfxfEu4eh">
-        <mxGraphModel dx="2520" dy="2358" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2873" dy="2509" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -66,9 +66,6 @@
                 </mxCell>
                 <mxCell id="Ohu_rihZBkmFTRXGpnVS-9" value="&amp;gt;&amp;gt;" style="rounded=1;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
                     <mxGeometry x="1010" y="302" width="30" height="23" as="geometry"/>
-                </mxCell>
-                <mxCell id="Ohu_rihZBkmFTRXGpnVS-10" value="&amp;gt;&amp;gt;" style="rounded=1;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
-                    <mxGeometry x="2180" y="480" width="30" height="23" as="geometry"/>
                 </mxCell>
                 <mxCell id="Ohu_rihZBkmFTRXGpnVS-11" value="&amp;gt;" style="rounded=1;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
                     <mxGeometry x="976" y="302" width="30" height="23" as="geometry"/>
@@ -223,8 +220,8 @@
                 <mxCell id="Ohu_rihZBkmFTRXGpnVS-62" value="&lt;h1&gt;Req. Notes&lt;br&gt;&lt;/h1&gt;&lt;div&gt;-leftover monies display like in the prototype&lt;/div&gt;&lt;div&gt;-- Bills, bills unpaid, bills paid, remaining from pay&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#2D7600;fillColor=#60a917;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="739" y="80" width="190" height="173" as="geometry"/>
                 </mxCell>
-                <mxCell id="2" value="&lt;h1&gt;WIP Notes:&lt;/h1&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;want to do an update-in-place type of edit option, instead of putting the data into the existing add-data fields.&lt;/li&gt;&lt;li&gt;On that note, do the same for adding. Click (+) button &amp;gt; new line added &amp;gt; edit data &amp;gt; On blur, save the data || &amp;gt;if error, highlight errors, if user presses esc or (X) then clear the line&lt;/li&gt;&lt;li&gt;Data should be added with the 'end date' being the last payment date. don't know why I thought it should be the other way around. V odd.&lt;/li&gt;&lt;li&gt;Gotta start working on the first-draft of the API aswell. That atleast, should be fun. Should probably do it in python to really cement the syntax into my head for work&lt;/li&gt;&lt;li&gt;Also, gotta start using some kind of agile board for this stuff. &amp;gt; Number &amp;gt; Go &amp;gt; Up&lt;/li&gt;&lt;li&gt;Also also, clean up the codebase and make nicer UI. IT's _ok_ right now, but it could be soooo much nicer&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#6F0000;fillColor=#a20025;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#ffffff;" vertex="1" parent="1">
-                    <mxGeometry x="1010" y="110" width="324" height="440" as="geometry"/>
+                <mxCell id="2" value="&lt;h1&gt;WIP Notes:&lt;/h1&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;want to do an update-in-place type of edit option, instead of putting the data into the existing add-data fields.&lt;/li&gt;&lt;li&gt;On that note, do the same for adding. Click (+) button &amp;gt; new line added &amp;gt; edit data &amp;gt; On blur, save the data || &amp;gt;if error, highlight errors, if user presses esc or (X) then clear the line&lt;/li&gt;&lt;li&gt;Data should be added with the 'end date' being the last payment date. don't know why I thought it should be the other way around. V odd.&lt;/li&gt;&lt;li&gt;Gotta start working on the first-draft of the API aswell. That atleast, should be fun. Should probably do it in python to really cement the syntax into my head for work&lt;/li&gt;&lt;li&gt;Also, gotta start using some kind of agile board for this stuff. &amp;gt; Number &amp;gt; Go &amp;gt; Up&lt;/li&gt;&lt;li&gt;Also also, clean up the codebase and make nicer UI. IT's _ok_ right now, but it could be soooo much nicer&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#6F0000;fillColor=#a20025;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#ffffff;" parent="1" vertex="1">
+                    <mxGeometry x="1079" y="80" width="324" height="440" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
