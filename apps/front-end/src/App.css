@@ -19,8 +19,28 @@ th {
   border-bottom: 1px solid rgba(0,0,0,0.2);
   color: pink;
 }
+.BudgetView-Delete{
+  width:2%;
+}
+.BudgetView-Row-deletebutton{
+  display:block;
+  width:3vh;
+  height:3vh;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background-color:transparent;
+  transition: border-color 0.2s ease-in-out, 
+          background-color 0.1s ease-in-out;
+  cursor:pointer;
+}
+.BudgetView-Row-deletebutton:hover{
+  border-color: pink;
+}
+.BudgetView-Row-deletebutton:active{
+  background-color: pink;
+}
 .BudgetView-Description {
-  width: 30%;
+  width: 28%;
 }
 .BudgetView-Value {
   width: 10%;

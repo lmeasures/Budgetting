@@ -5,7 +5,11 @@ import testData from './test-data.json';
 
 import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
-import {Fab, ToggleButton, Tooltip, Typography, createTheme} from '@mui/material';
+import {Fab, InputAdornment, TextField, ToggleButton, Tooltip, Typography, createTheme} from '@mui/material';
+import { DatePicker, DateTimePicker, DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 const App = () => {
   const [budgetItems, setBudgetItems] = React.useState<Array<IBudgetLine>>(testData.items);
@@ -17,12 +21,15 @@ const App = () => {
     startDate: undefined,
     frequency: 1,
     endDate: undefined,
-    paid: []
+    paid: [],
+    deletedMonths: [],
   }
 
   const [newBudgetLine, setNewBudgetLine] = React.useState<IBudgetLine>(emptyBudgetLine);
   const [displaySubmitToolTip, setDisplaySubmitToolTip] = React.useState<boolean>(false);
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [datetest, setdatetest] = React.useState();
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState<number | false>(false)
 
   //.toLocaleDateString("en-GB", {day: "numeric", month: "numeric", year: "numeric"})
 
@@ -42,6 +49,7 @@ const App = () => {
     frequency: number,
     endDate: Date | string | undefined,
     paid: Array<string>,
+    deletedMonths: Array<string>,
   }
 
   const changeYear = (changeValue: number) => {
@@ -68,6 +76,7 @@ const App = () => {
     const selectedDateUpperComparitor = new Date(selectedDate);
     selectedDateUpperComparitor.setDate(31);
     selectedDateUpperComparitor.setHours(0,0,0,0);
+    const selectedMonth = selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"})
     const items = budgetItems.filter((item) => {
       if ( item.startDate && item.endDate){
         const newStartDate = new Date(item.startDate);
@@ -78,6 +87,8 @@ const App = () => {
           newStartDate <= selectedDateUpperComparitor
             &&
           newEndDate >= selectedDateLowerComparitor
+            &&
+          !item.deletedMonths.includes(selectedMonth)
         )
       }
     })
@@ -135,7 +146,30 @@ const App = () => {
     setBudgetItems(budgetItemsCopy);
   }
 
-
+  const handleDeleteOne = (id: number) => {
+    const selectedMonth = selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"})
+    const budgetItemsCopy = [... budgetItems]
+    const budgetItemIndex = budgetItemsCopy.findIndex((a) => a.id === id);
+    budgetItemsCopy[budgetItemIndex].deletedMonths.push(selectedMonth)
+    setBudgetItems(budgetItemsCopy);
+    setShowDeleteConfirmation(false)
+  }
+  const handleDeleteFuture = (id: number) => {
+    let selectedDateCopy = new Date(selectedDate)
+    if (selectedDateCopy.getMonth() > 0) {
+      selectedDateCopy.setMonth(selectedDate.getMonth()-1)  
+    }
+    else {
+      selectedDateCopy.setMonth(11)  
+      selectedDateCopy.setFullYear(selectedDateCopy.getFullYear()-1)
+    }
+    const selectedMonth = selectedDate.toLocaleDateString("en-GB", {month: "numeric", year: "numeric"})
+    const budgetItemsCopy = [... budgetItems]
+    const budgetItemIndex = budgetItemsCopy.findIndex((a) => a.id === id);
+    budgetItemsCopy[budgetItemIndex].endDate = selectedMonth
+    setBudgetItems(budgetItemsCopy)
+    setShowDeleteConfirmation(false)
+  }
 
   return (
     <div className="App">
@@ -153,6 +187,7 @@ const App = () => {
           <table className="BudgetView"> 
             <thead>
               <tr>
+                <td className="BudgetView-Delete Empty" />
                 <th className="BudgetView-Description">Description</th>
                 <th className="BudgetView-Value">Value</th>
                 <th className="BudgetView-StartDate">Start Date</th>
@@ -163,32 +198,38 @@ const App = () => {
             </thead>
             <tbody>
               <tr className="BudgetView-Row">
+                <td className="BudgetView-Delete Empty" />
                 <td className="BudgetView-Description">
-                  <input className="BudgetView-DataEntry"
+                  <TextField 
+                    id="BudgetView-DataEntry"
+                    label="Description"
+                    variant="outlined"
                     name="description"
-                    type="text"
-                    placeholder="Description"
-                    value={newBudgetLine.description ?? ""} 
+                    value={newBudgetLine.description}
                     onChange={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
                   />
                 </td>
                 <td className="BudgetView-Value">
-                  <input className="BudgetView-DataEntry"
+                  <TextField 
+                    id="BudgetView-DataEntry"
+                    label="Value"
+                    variant="outlined"
                     name="value"
-                    type="string" 
-                    placeholder="Value"
-                    pattern="/^([0-9])+\.([0-9]){2}$/g" 
-                    value={newBudgetLine.value ?? ""}
-                    onChange={(e) => {handleNewLineChange(e.target.name, +e.target.value)}}
+                    value={newBudgetLine.value}
+                    onChange={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">£</InputAdornment>,
+                    }}
                   />
                 </td>
                 <td className="BudgetView-StartDate">
-                  <input className="BudgetView-DataEntry"
-                    name="startDate"
-                    type="date"
-                    value={newBudgetLine.startDate?.toLocaleString("en-GB") ?? ""}
-                    onChange={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
-                  />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      name="startDate"
+                      value={dayjs(newBudgetLine.startDate)}
+                      onAccept={(e) => handleNewLineChange("startDate", dayjs(e).format('DD-MM-YYYY'))}
+                    />
+                  </LocalizationProvider>
                 </td>
                 <td className="BudgetView-Frequency">
                   {FrequencyEnum[newBudgetLine.frequency]}
@@ -203,12 +244,13 @@ const App = () => {
                   />
                 </td>
                 <td className="BudgetView-EndDate">
-                  <input className="BudgetView-DataEntry"
-                    name="endDate"
-                    type="date"
-                    value={newBudgetLine.endDate?.toLocaleString("en-GB") ?? ""}
-                    onChange={(e) => {handleNewLineChange(e.target.name, e.target.value)}}
-                  />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      name="endDate"
+                      value={newBudgetLine.endDate ? dayjs(newBudgetLine.endDate) : undefined}
+                      onAccept={(e) => handleNewLineChange("endDate", dayjs(e).format('DD-MM-YYYY'))}
+                    />
+                  </LocalizationProvider>
                 </td>
                 <td className="BudgetView-Func">
                 <Tooltip 
@@ -232,6 +274,14 @@ const App = () => {
                 return (
                   <>
                     <tr key={i} className="BudgetView-Row">
+                      <td className="BudgetView-Delete">
+                        <div 
+                          className="BudgetView-Row-deletebutton"
+                          onClick={()=>setShowDeleteConfirmation(item.id)}
+                        >
+                          Del  
+                        </div>
+                      </td>
                       <td className="BudgetView-Description">
                         {item.description}
                       </td>
@@ -274,6 +324,17 @@ const App = () => {
           </table>
         </div>
       </>
+      {showDeleteConfirmation !== false && (
+        <div className="BudgetView-DeleteConfirmationDialogue">
+          <h2>Are you sure?</h2>
+          <span>Delete item: <b>{`${budgetItems.find((item) => item.id === showDeleteConfirmation)?.description}`}</b></span>
+          <div className="DeleteConfirmationDialogue-OptionsContainer">
+            <button onClick={()=>setShowDeleteConfirmation(false)}>Cancel</button>
+            <button onClick={()=>handleDeleteOne(showDeleteConfirmation)}>This One</button>
+            <button onClick={()=>handleDeleteFuture(showDeleteConfirmation)}>All Future</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
